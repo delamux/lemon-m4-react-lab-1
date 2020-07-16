@@ -13,20 +13,20 @@ export const ListPage: React.FC = () => {
   const [organization, setOrganization] = React.useState<string>("");
   const [isEmptyList, setisEmptyList] = React.useState<boolean>(false);
 
-  const getUsers = (organization: string = "") => {
+  const getUsers = async (organization: string = "") => {
     organization = organization || "lemoncode";
     setOrganization(organization);
-    fetch(`https://api.github.com/orgs/${organization}/members`)
-      .then((response) => response.json())
-      .then((json) => {
-        if (json.message === "Not Found") {
-          setisEmptyList(true);
-          setMembers([]);
-        } else {
-          setMembers(json);
-          setisEmptyList(false);
-        }
-      });
+    const response = await fetch(
+      `https://api.github.com/orgs/${organization}/members`
+    );
+    const json = await response.json();
+    if (json.message === "Not Found") {
+      setisEmptyList(true);
+      setMembers([]);
+    } else {
+      setMembers(json);
+      setisEmptyList(false);
+    }
   };
 
   const notFoundMessage = <h2 style={{ color: "red" }}>Not Found</h2>;
@@ -38,7 +38,7 @@ export const ListPage: React.FC = () => {
 
   React.useEffect(() => {
     getUsers();
-  }, []);
+  }, [members]);
 
   return (
     <>
