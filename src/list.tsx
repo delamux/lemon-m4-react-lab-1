@@ -11,7 +11,7 @@ export interface MemberEntity {
 export const ListPage: React.FC = () => {
   const [members, setMembers] = React.useState<MemberEntity[]>([]);
   const [organization, setOrganization] = React.useState<string>("");
-  const [isEmptyList, setisEmptyList] = React.useState<boolean>(false);
+  const [isEmptyList, setIsEmptyList] = React.useState<boolean>(false);
 
   const getUsers = async (organization: string = "") => {
     organization = organization || "lemoncode";
@@ -21,11 +21,11 @@ export const ListPage: React.FC = () => {
     );
     const json = await response.json();
     if (json.message === "Not Found") {
-      setisEmptyList(true);
+      setIsEmptyList(true);
       setMembers([]);
     } else {
       setMembers(json);
-      setisEmptyList(false);
+      setIsEmptyList(false);
     }
   };
 
